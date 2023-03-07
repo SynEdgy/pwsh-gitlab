@@ -17,7 +17,7 @@ Encoding: UTF8
 
 # Suffix to add to Root module PSM1 after merge (here, the Set-Alias exporting IB tasks)
 # suffix: suffix.ps1
-# prefix: prefix.ps1
+prefix: prefix.ps1
 VersionedOutputDirectory: true
 
 ####################################################
@@ -31,7 +31,7 @@ NestedModule:
 #    OutputDirectory: ///Modules/HelperSubmodule
 #    VersionedOutputDirectory: false
 #    AddToManifest: false
-#    SemVer: 
+#    SemVer:
 #    # suffix:
 #    # prefix:
 
@@ -141,9 +141,3 @@ TaskHeader: |
   Write-Build DarkGray "  $Path"
   Write-Build DarkGray "  $($Task.InvocationInfo.ScriptName):$($Task.InvocationInfo.ScriptLineNumber)"
   ""
-
-
-
-
-
-

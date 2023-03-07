@@ -1,7 +1,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'GitLabCli.psm1'
+RootModule = 'GitlabCli.psm1'
 
 # Version number of this module.
 ModuleVersion = '1.88.0'
@@ -22,7 +22,7 @@ CompanyName = 'Chris Peterson'
 Copyright = '(c) Chris Peterson. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'Interact with GitLab via PowerShell'
+Description = 'Interact with Gitlab via PowerShell'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.0'
@@ -87,7 +87,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = @('Git', 'GitLab')
+        Tags = @('Git', 'Gitlab')
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/chris-peterson/pwsh-gitlab/blob/main/LICENSE'
@@ -121,16 +121,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
