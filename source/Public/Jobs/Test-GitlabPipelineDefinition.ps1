@@ -50,7 +50,7 @@ function Test-GitlabPipelineDefinition
             $Params.Query.include_merged_yaml = 'true'
         }
 
-        Default {
+        default {
             # https://docs.gitlab.com/ee/api/lint.html#validate-a-projects-ci-configuration
             $Params.HttpMethod = 'GET'
             $Params.Path = "projects/$ProjectId/ci/lint"

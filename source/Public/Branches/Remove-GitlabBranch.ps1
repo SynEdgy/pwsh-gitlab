@@ -4,7 +4,7 @@ function Remove-GitlabBranch
     [CmdletBinding(DefaultParameterSetName = 'ByName')]
     param
     (
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [string]
         $ProjectId = '.',
 
@@ -12,16 +12,16 @@ function Remove-GitlabBranch
         [string]
         $Name,
 
+        [Parameter(ParameterSetName = 'MergedBranches')]
         [switch]
-        [Parameter(Mandatory = $false, ParameterSetName = 'MergedBranches')]
         $MergedBranches,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter()]
         [string]
         $SiteUrl,
 
+        [Parameter()]
         [switch]
-        [Parameter(Mandatory=$false)]
         $WhatIf
     )
 
@@ -39,7 +39,7 @@ function Remove-GitlabBranch
             Invoke-GitlabApi DELETE "projects/$($Project.Id)/repository/merged_branches" -SiteUrl $SiteUrl -WhatIf:$WhatIf
         }
 
-        Default {
+        default {
             throw "Unsupported parameter set $($PSCmdlet.ParameterSetName)"
         }
     }

@@ -55,7 +55,8 @@ BuildWorkflow:
     - build
     - package_module_nupkg
 
-
+  hqrmtest:
+    - Invoke_HQRM_Tests_Stop_On_Fail
 
   # Defining test task to be run when invoking `./build.ps1 -Tasks test`
   test:
@@ -128,6 +129,37 @@ ModuleBuildTasks:
     - '*.build.Sampler.ib.tasks'
   Sampler.GitHubTasks:
     - '*.ib.tasks'
+  DscResource.Test:
+    - 'Task.*'
+
+####################################################
+#             HQRM Test Configuration              #
+####################################################
+
+DscTest:
+  Pester:
+    Configuration:
+      Filter:
+        ExcludeTag:
+          - "Common Tests - New Error-Level Script Analyzer Rules"
+          - "Common Tests - Validate Localization"
+          - "Common Tests - Validate Example Files To Be Published"
+          - "Common Tests - Validate Example Files"
+      Output:
+        Verbosity: Detailed
+        CIFormat: Auto
+      TestResult:
+        OutputFormat: NUnitXML
+        OutputEncoding: ascii
+        OutputPath: ./output/testResults/NUnitXml_HQRM_Tests.xml
+  Script:
+    ExcludeSourceFile:
+      - output
+      - Modules/DscResource.Common
+    ExcludeModuleFile:
+      - Templates
+      - Modules/DscResource.Common
+    MainGitBranch: main
 
 
 # Invoke-Build Header to be used to 'decorate' the terminal output of the tasks.

@@ -29,8 +29,8 @@ function Get-GitlabRunner
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -57,7 +57,7 @@ function Get-GitlabRunner
             $Params.Query.tag_list = $Tags -join ','
         }
 
-        Default {
+        default {
             throw "Unsupported parameter combination"
         }
     }

@@ -26,29 +26,29 @@ function Get-GitlabAuditEvent
         [string]
         $EntityId,
 
-        [switch]
         [Parameter()]
+        [switch]
         $FetchAuthors,
 
-        [switch]
         [Parameter()]
+        [switch]
         $All,
 
-        [Alias('Until')]
         [Parameter()]
+        [Alias('Until')]
         [ValidateScript({ValidateGitlabDateFormat $_})]
         [string]
         $Before,
 
-        [Alias('Since')]
         [Parameter()]
+        [Alias('Since')]
         [ValidateScript({ValidateGitlabDateFormat $_})]
         [string]
         $After,
 
         [Parameter()]
         [int]
-        $MaxPages = $global:GitlabGetProjectDefaultPages,
+        $MaxPages = $GitlabGetProjectDefaultPages,
 
         [Parameter()]
         [string]
@@ -57,7 +57,7 @@ function Get-GitlabAuditEvent
 
     if ($All)
     {
-        if ($MaxPages -ne $global:GitlabGetProjectDefaultPages)
+        if ($MaxPages -ne $GitlabGetProjectDefaultPages)
         {
             Write-Warning -Message "Ignoring -MaxPages in favor of -All"
         }
@@ -92,7 +92,7 @@ function Get-GitlabAuditEvent
         {
             throw "Requires -EntityType to also be provided"
         }
-        
+
         $Query.entity_id = $EntityId
     }
 
@@ -100,12 +100,12 @@ function Get-GitlabAuditEvent
     {
         $Query.entity_type = $EntityType
     }
-    
+
     if ($Before)
     {
         $Query.created_before = $Before
     }
-    
+
     if ($After)
     {
         $Query.created_after = $After
@@ -125,7 +125,10 @@ function Get-GitlabAuditEvent
                 $User = $null
             }
 
-            @{Id=$_; User=$User }
+            @{
+                Id   = $_
+                User = $User
+            }
         }
 
         $Results | ForEach-Object {

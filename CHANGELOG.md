@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- For changes in existing functionality.
+- Converted to the Sampler project framework from git commit id a0b0ead3656d94d94ef34ea7bfacafe17b9ed2fd.
 
 ### Deprecated
 
@@ -28,4 +28,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - In case of vulnerabilities.
-
