@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+  <Type>
+    <Name>Gitlab.Branch</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>LastAuthor</Name>
+        <GetScriptBlock>$this.Commit.author_name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>LastUpdated</Name>
+        <GetScriptBlock>
+        $LastUpdated = $this.Commit.authored_date
+        if ($this.Commit.committed_date -gt $LastUpdated) {
+          $LastUpdated = $this.Commit.committed_date
+        }
+        $LastUpdated
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.ProtectedBranch</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>WhoCanPush</Name>
+        <GetScriptBlock>$this.PushAccessLevels.access_level_description -join ','</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>WhoCanMerge</Name>
+        <GetScriptBlock>$this.MergeAccessLevels.access_level_description -join ','</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Group</Name>
+    <Members>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Issue</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>AuthorName</Name>
+        <GetScriptBlock>$this.Author.Name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>AssigneeName</Name>
+        <GetScriptBlock>$this.Assignee.Name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>ProjectPath</Name>
+        <GetScriptBlock>$this.WebUrl -match '://[\w\.]+/(?&lt;ProjectPath&gt;.*)/-' | Out-Null; $Matches.ProjectPath</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>SortKey</Name>
+        <GetScriptBlock>
+        if ($this.DueDate) {
+          $this.DueDate
+        } else {
+          "$($this.ProjectPath)/$($this.IssueId)"
+        }
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.MergeRequest</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>AuthorName</Name>
+        <GetScriptBlock>$this.Author.Name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>AssigneeName</Name>
+        <GetScriptBlock>$this.Assignee.Name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>ProjectPath</Name>
+        <GetScriptBlock>$this.WebUrl -match '://[\w\.]+/(?&lt;ProjectPath&gt;.*)/-' | Out-Null; $Matches.ProjectPath</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.MergeRequestApprovalRule</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Approvers</Name>
+        <GetScriptBlock>
+        $Users = $this.EligibleApprovers.username -join ', '
+        if ($this.Groups) {
+          "$($this.Groups.full_name -join ', ') ($Users)"
+        } else {
+          $Users
+        }</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Pipeline</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>UserName</Name>
+        <GetScriptBlock>$this.User.username</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Duration</Name>
+        <GetScriptBlock>$this.FinishedAt - $this.CreatedAt</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Runtime</Name>
+        <GetScriptBlock>$this.Duration - $this.QueuedDuration</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.PipelineBridge</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>DownstreamPipelineUrl</Name>
+        <GetScriptBlock>$this.DownstreamPipeline.web_url</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.PipelineSchedule</Name>
+    <Members>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Environment</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>EnvironmentName</Name>
+        <GetScriptBlock>$this.Name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>ProjectId</Name>
+        <GetScriptBlock>$this.Project.id</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Deployment</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>EnvironmentId</Name>
+        <GetScriptBlock>$this.Environment.id</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>EnvironmentName</Name>
+        <GetScriptBlock>$this.Environment.name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Created</Name>
+        <GetScriptBlock>$this.CreatedAt.ToString('yyyy-MM-dd HH:mm')</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Deployer</Name>
+        <GetScriptBlock>$this.User.name</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Pipeline</Name>
+        <GetScriptBlock>$this.Deployable.Pipeline | New-WrapperObject 'Gitlab.Pipeline'</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Job</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>ProjectId</Name>
+        <GetScriptBlock>$this.Pipeline.project_id</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.TestReport</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Failures</Name>
+        <GetScriptBlock>$this.TestSuites.test_cases | Where-Object status -eq 'failed'</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Project</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Group</Name>
+        <GetScriptBlock>$($($this.PathWithNamespace -split '/') | Select-Object -SkipLast 1) -join '/'</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Tags</Name>
+        <GetScriptBlock>$this.TagList</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.SearchResult.Blob</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>LineNumber</Name>
+        <GetScriptBlock>$this.Startline</GetScriptBlock>
+      </ScriptProperty>
+        <ScriptProperty>
+        <Name>ProjectPath</Name>
+        <GetScriptBlock>$this.Project.PathWithNamespace</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Url</Name>
+        <GetScriptBlock>"$($this.Project.Url)/-/blob/$($this.Project.DefaultBranch)/$($this.Path)#L$($this.Startline)"</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.SearchResult.MergeRequest</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>AuthorName</Name>
+        <GetScriptBlock>$this.Author.username</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.SearchResult.Project</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>ProjectId</Name>
+        <GetScriptBlock>$this.Id</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.User</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Status</Name>
+        <GetScriptBlock>$this.State</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Member</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>AccessLevelFriendly</Name>
+        <GetScriptBlock>
+          $Levels = Get-GitlabMemberAccessLevel
+          $Levels.psobject.Properties | Where-Object Value -eq $this.AccessLevel | Select-Object -ExpandProperty Name
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.UserMembership</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>AccessLevelFriendly</Name>
+        <GetScriptBlock>
+          $Levels = Get-GitlabMemberAccessLevel
+          $Levels.psobject.Properties | Where-Object Value -eq $this.AccessLevel | Select-Object -ExpandProperty Name
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Event</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Summary</Name>
+        <GetScriptBlock>
+        if ($this.PushData) {
+          $RefEvents = @('created', 'pushed', 'removed')
+          if ($RefEvents.Contains($this.PushData.action)) {
+            "$($this.PushData.ref_type) $($this.PushData.ref)"
+          } else {
+            $this.PushData.commit_title
+          }
+        } else {
+          if ($this.TargetType -and $this.TargetTitle) {
+            "$($this.TargetType): $($this.TargetTitle)"
+          }
+        }
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>CreatedAtSortable</Name>
+        <GetScriptBlock>$this.CreatedAt.ToString('yyyy-MM-dd HH:mm')</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Note</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>AuthorUsername</Name>
+        <GetScriptBlock>$this.Author.Username</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>UpdatedAtSortable</Name>
+        <GetScriptBlock>$this.UpdatedAt.ToString('yyyy-MM-dd HH:mm')</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Commit</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>CommittedDateSortable</Name>
+        <GetScriptBlock>$this.CommittedDate.ToString('yyyy-MM-dd HH:mm')</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Configuration</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>SitesDisplay</Name>
+        <GetScriptBlock>
+          $this.Sites | ForEach-Object { [bool]::Parse($_.IsDefault) ? "$($_.Url) (default)" : $_.Url }
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Variable</Name>
+    <Members>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.RepositoryTree</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>ItemType</Name>
+        <GetScriptBlock>$this.Type -eq 'tree' ? 'Directory' : 'File'</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.RepositoryFile</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Name</Name>
+        <GetScriptBlock>$this.FileName</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.Runner</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>Tags</Name>
+        <GetScriptBlock>$this.TagList</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.RunnerJob</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>ProjectPath</Name>
+        <GetScriptBlock>$this.Project.path_with_namespace</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Username</Name>
+        <GetScriptBlock>$this.User.username</GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.AccessToken</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>AccessLevelFriendly</Name>
+        <GetScriptBlock>
+          $Levels = Get-GitlabMemberAccessLevel
+          $Levels.psobject.Properties | Where-Object Value -eq $this.AccessLevel | Select-Object -ExpandProperty Name
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.ProjectHook</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>EventProperties</Name>
+        <GetScriptBlock>
+          $($this | Select-Object -ExcludeProperty 'Events' '*Events').PSObject.properties
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Events</Name>
+        <GetScriptBlock>
+          $($this.EventProperties | ForEach-Object { if ($_.Value) { $_.Name -replace 'Events', '' } }) -join ', '
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.ProjectIntegration</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>EventProperties</Name>
+        <GetScriptBlock>
+          $($this | Select-Object -ExcludeProperty 'Events' '*Events').PSObject.properties
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Events</Name>
+        <GetScriptBlock>
+          $($this.EventProperties | ForEach-Object { if ($_.Value) { $_.Name -replace 'Events', '' } }) -join ', '
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Gitlab.AuditEvent</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>CreatedAtSortable</Name>
+        <GetScriptBlock>$this.CreatedAt.ToString('yyyy-MM-dd HH:mm')</GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>AuthorUserId</Name>
+        <GetScriptBlock>
+          if ($this.AuthorId -eq '-1') {
+            $null
+          } else {
+            $this.Author.Username ?? $this.AuthorId
+          }
+        </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Summary</Name>
+        <GetScriptBlock>
+          $Details = $this.Details
+          switch ($this.EntityType) {
+            User {
+              if ($Details.failed_login) {
+                "User $($Details.target_details) failed login ($($Details.failed_login))"
+              } elseif ($Details.custom_message) {
+                "User $($Details.custom_message) to $($Details.target_details)"
+              } elseif ($Details.add) {
+                "User $($Details.entity_path) added $($Details.add)"
+              } else {
+                "User $($Details.target_details) ($($Details.entity_path ?? $Details.target_id)) auth with $($Details.with)"
+              }
+            }
+            Project {
+              if ($Details.target_type -eq 'Release') {
+                "Release $($Details.target_details)"
+              }
+              else {
+                "$($Details.author_class) $($Details.author_name) changed $($Details.target_type) ($($Details.target_details)): $($Details.custom_message)"
+              }
+            }
+            Default {
+              if ($Details.add) {
+                "Added $($Details.add) ($($Details.target_details)) in $($Details.entity_path)"
+              } elseif ($Details.remove) {
+                "Removed $($Details.remove) ($($Details.target_details)) in $($Details.entity_path)"
+              } elseif ($Details.change) {
+                "Changed $($Details.change) ($($Details.target_details)) from $($Details.from) to $($Details.to) in $($Details.entity_path)"
+              } elseif ($Details.custom_message) {
+                "$($Details.custom_message) in $($Details.entity_path)"
+              } else {
+                $Details
+              }
+            }
+          }
+        </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+</Types>
