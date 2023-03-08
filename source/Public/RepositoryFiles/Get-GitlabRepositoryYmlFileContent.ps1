@@ -22,12 +22,8 @@ function Get-GitlabRepositoryYmlFileContent
         $SiteUrl
     )
 
-    $Yml = Get-GitlabRepositoryFileContent -ProjectId $ProjectId -Ref $Ref -FilePath $FilePath -SiteUrl $SiteUrl
-    $Hash = $([YamlDotNet.Serialization.Deserializer].GetMethods() |
-        Where-Object { $_.Name -eq 'Deserialize' -and $_.ReturnType.Name -eq 'T' -and $_.GetParameters().ParameterType.Name -eq 'String' }). `
-        MakeGenericMethod(
-            [object]). `
-        Invoke($(New-Object 'YamlDotNet.Serialization.Deserializer'), $Yml)
+    $yml = Get-GitlabRepositoryFileContent -ProjectId $ProjectId -Ref $Ref -FilePath $FilePath -SiteUrl $SiteUrl
+    $hash = ConvertFrom-Yaml -Yaml $yml -AllDocuments -Ordered
 
-    return $Hash | ConvertTo-Json -Depth 100 | ConvertFrom-Json # the JSON "double-tap" coerces HashTables into PSCustomObject (including nested children)
+    return $hash | ConvertTo-Json -Depth 100 | ConvertFrom-Json # the JSON "double-tap" coerces HashTables into PSCustomObject (including nested children)
 }
