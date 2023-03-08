@@ -1,11 +1,11 @@
 TOPIC
-    about_pwsh-gitlab
+    about_GitlabCli
 
 SHORT DESCRIPTION
-    Interact with Gitlab via PowerShell
+    Interact with Gitlab via PowerShell.
 
 LONG DESCRIPTION
-    Interact with Gitlab via PowerShell
+    Interact with Gitlab via PowerShell, through the API.
 
 EXAMPLES
     PS C:\> {{ add examples here }}
@@ -17,7 +17,7 @@ TROUBLESHOOTING NOTE:
     Look out on the Github repository for issues and new releases.
 
 SEE ALSO
-    - {{ Please add Project URI such as github }}}
+    - https://gitlab.com
 
 KEYWORDS
     {{ Add comma separated keywords here }}
