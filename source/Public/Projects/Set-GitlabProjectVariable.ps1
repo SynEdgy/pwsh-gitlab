@@ -18,12 +18,12 @@ function Set-GitlabProjectVariable
         [string]
         $Value,
 
-        [switch]
         [Parameter(ValueFromPipelineByPropertyName = $true)]
+        [switch]
         $Protect,
 
-        [switch]
         [Parameter(ValueFromPipelineByPropertyName = $true)]
+        [switch]
         $Mask,
 
         [Parameter()]
@@ -61,12 +61,12 @@ function Set-GitlabProjectVariable
     {
         if ($IsExistingVariable)
         {
-            Invoke-GitlabApi PUT "projects/$($ProjectId)/variables/$Key" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference | New-WrapperObject 'Gitlab.Variable'
+            Invoke-GitlabApi -HttpMethod 'PUT' -Path "projects/$($ProjectId)/variables/$Key" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference | New-WrapperObject 'Gitlab.Variable'
         }
         else
         {
             $Query.key = $Key
-            Invoke-GitlabApi POST "projects/$($ProjectId)/variables" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference | New-WrapperObject 'Gitlab.Variable'
+            Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($ProjectId)/variables" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference | New-WrapperObject 'Gitlab.Variable'
         }
     }
 }

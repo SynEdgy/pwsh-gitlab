@@ -24,10 +24,12 @@ function Write-GitlabConfiguration
     catch [System.Management.Automation.PropertyNotFoundException]
     {
         # if there is no Sites yet (and $ToSave is $null, probably), make an empty config
-        $ToSave = @{Sites = @()}
+        $ToSave = @{
+            Sites = @()
+        }
     }
 
-    $ConfigContainer = Split-Path -Parent -Path $global:GitlabConfigurationPath
+    $ConfigContainer = Split-Path -Parent -Path $GitlabConfigurationPath
 
     if (-not (Test-Path -Type Container $ConfigContainer))
     {
@@ -36,5 +38,5 @@ function Write-GitlabConfiguration
 
     $null = $ToSave |
         ConvertTo-Json |
-        Set-Content -Path $global:GitlabConfigurationPath -Force
+        Set-Content -Path $GitlabConfigurationPath -Force
 }

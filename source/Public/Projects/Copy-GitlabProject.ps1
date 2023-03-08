@@ -34,7 +34,7 @@ function Copy-GitlabProject
 
     if ($PSCmdlet.ShouldProcess("$($Group.FullPath)", "$($PreserveForkRelationship ? "fork" : "copy") $($SourceProject.Path)"))
     {
-        $NewProject = Invoke-GitlabApi POST "projects/$($SourceProject.Id)/fork" @{
+        $NewProject = Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($SourceProject.Id)/fork" @{
             namespace_id           = $Group.Id
             name                   = $DestinationProjectName ?? $SourceProject.Name
             path                   = $DestinationProjectName ?? $SourceProject.Name
@@ -43,8 +43,8 @@ function Copy-GitlabProject
 
         if (-not $PreserveForkRelationship)
         {
-            Invoke-GitlabApi DELETE "projects/$($NewProject.id)/fork" -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference | Out-Null
-            Write-Host "Removed fork relationship between $($SourceProject.Name) and $($NewProject.PathWithNamespace)"
+            Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($NewProject.id)/fork" -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference | Out-Null
+            Write-Information -InformationAction 'Continue' -MessageData "Removed fork relationship between $($SourceProject.Name) and $($NewProject.PathWithNamespace)"
         }
     }
 }

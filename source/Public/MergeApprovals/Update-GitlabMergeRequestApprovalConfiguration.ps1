@@ -1,7 +1,7 @@
-
 # https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
 function Update-GitlabMergeRequestApprovalConfiguration
 {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', Scope='Function',Justification = 'RequirePasswordToApprove not a password. Ignoring PSSA warning.')]
     [CmdletBinding(SupportsShouldProcess = $true)]
     param
     (
@@ -39,7 +39,7 @@ function Update-GitlabMergeRequestApprovalConfiguration
         [object]
         $SelectiveCodeOwnerRemovals,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter()]
         [string]
         $SiteUrl
     )
@@ -47,38 +47,38 @@ function Update-GitlabMergeRequestApprovalConfiguration
     $Project = Get-GitlabProject $ProjectId
     $Request = @{}
 
-    if ($DisableOverridingApproversPerMergeRequest -ne $null)
+    if ($null -ne $DisableOverridingApproversPerMergeRequest)
     {
         $Request.disable_overriding_approvers_per_merge_request = $DisableOverridingApproversPerMergeRequest.ToLower()
     }
 
-    if ($MergeRequestsAuthorApproval -ne $null)
+    if ($null -ne $MergeRequestsAuthorApproval)
     {
         $Request.merge_requests_author_approval = $MergeRequestsAuthorApproval.ToLower()
     }
 
-    if ($MergeRequestsDisableCommittersApproval -ne $null)
+    if ($null -ne $MergeRequestsDisableCommittersApproval)
     {
         $Request.merge_requests_disable_committers_approval = $MergeRequestsDisableCommittersApproval.ToLower()
     }
 
-    if ($RequirePasswordToApprove -ne $null)
+    if ($null -ne $RequirePasswordToApprove)
     {
         $Request.require_password_to_approve = $RequirePasswordToApprove.ToLower()
     }
 
-    if ($ResetApprovalsOnPush -ne $null)
+    if ($null -ne $ResetApprovalsOnPush)
     {
         $Request.reset_approvals_on_push = $ResetApprovalsOnPush.ToLower()
     }
 
-    if ($SelectiveCodeOwnerRemovals -ne $null)
+    if ($null -ne $SelectiveCodeOwnerRemovals)
     {
         $Request.selective_code_owner_removals = $SelectiveCodeOwnerRemovals.ToLower()
     }
 
     if ($PSCmdlet.ShouldProcess($Project.PathWithNamespace, "update merge request approval settings to $($Request | ConvertTo-Json)"))
     {
-        Invoke-GitlabApi POST "projects/$($Project.Id)/approvals" -Body $Request -SiteUrl $SiteUrl | New-WrapperObject
+        Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($Project.Id)/approvals" -Body $Request -SiteUrl $SiteUrl | New-WrapperObject
     }
 }

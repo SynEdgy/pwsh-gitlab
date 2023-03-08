@@ -12,8 +12,8 @@ function Resume-GitlabRunner
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

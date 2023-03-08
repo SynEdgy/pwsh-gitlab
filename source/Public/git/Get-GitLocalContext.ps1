@@ -14,7 +14,7 @@ function Get-LocalGitContext
         Branch  = ''
     }
 
-    if($(Get-Location).Provider.Name -ne 'FileSystem')
+    if ($(Get-Location).Provider.Name -ne 'FileSystem')
     {
         return $Context
     }

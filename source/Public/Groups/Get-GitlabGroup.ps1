@@ -2,7 +2,7 @@
 # https://docs.gitlab.com/ee/api/groups.html#details-of-a-group
 function Get-GitlabGroup
 {
-    [CmdletBinding(DefaultParameterSetName='ByGroupId')]
+    [CmdletBinding(DefaultParameterSetName = 'ByGroupId')]
     param
     (
         [Parameter(Position = 0, ParameterSetName = 'ByGroupId')]
@@ -28,7 +28,7 @@ function Get-GitlabGroup
     )
 
     $MaxPages = 10
-    if($GroupId)
+    if ($GroupId)
     {
         if ($GroupId -eq '.')
         {
@@ -48,6 +48,7 @@ function Get-GitlabGroup
                 catch
                 {
                     #TODO: Log some info in debug stream?
+                    Write-Debug -Message ('Exception caught: ''{0}''.' -f $_)
                 }
 
                 Write-Verbose "Didn't find a group named '$PossibleGroupName'"
@@ -56,7 +57,7 @@ function Get-GitlabGroup
         else
         {
             # https://docs.gitlab.com/ee/api/groups.html#details-of-a-group
-            $Group = Invoke-GitlabApi GET "groups/$($GroupId | ConvertTo-UrlEncoded)" @{
+            $Group = Invoke-GitlabApi -HttpMethod 'GET' -Path "groups/$($GroupId | ConvertTo-UrlEncoded)" @{
                 'with_projects' = 'false'
             } -SiteUrl $SiteUrl -WhatIf:$WhatIf
         }
@@ -64,18 +65,23 @@ function Get-GitlabGroup
     elseif ($ParentGroupId)
     {
         #TODO: This is only PS7+ compatible, any reason?
-        $SubgroupOperation = $Recurse ?
+        $SubgroupOperation = if ($Recurse.IsPresent)
+        {
             'descendant_groups' # https://docs.gitlab.com/ee/api/groups.html#list-a-groups-descendant-groups
-            :
+        }
+        else
+        {
             'subgroups' # https://docs.gitlab.com/ee/api/groups.html#list-a-groups-subgroups
-        $Group = Invoke-GitlabApi GET "groups/$($ParentGroupId | ConvertTo-UrlEncoded)/$SubgroupOperation" `
+        }
+
+        $Group = Invoke-GitlabApi -HttpMethod 'GET' -Path "groups/$($ParentGroupId | ConvertTo-UrlEncoded)/$SubgroupOperation" `
           -SiteUrl $SiteUrl -WhatIf:$WhatIf -MaxPages $MaxPages
     }
     else
     {
         # https://docs.gitlab.com/ee/api/groups.html#list-groups
-        $Group = Invoke-GitlabApi GET "groups" @{
-            'top_level_only' = (-not $Recurse).ToString().ToLower()
+        $Group = Invoke-GitlabApi -HttpMethod 'GET' -Path "groups" @{
+            'top_level_only' = (-not $Recurse.IsPresent).ToString().ToLower()
         } -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf
     }
 

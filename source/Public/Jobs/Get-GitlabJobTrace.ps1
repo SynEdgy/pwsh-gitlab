@@ -17,8 +17,8 @@ function Get-GitlabJobTrace
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

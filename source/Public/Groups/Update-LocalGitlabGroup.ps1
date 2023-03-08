@@ -16,7 +16,7 @@ function Update-LocalGitlabGroup
 
             if ($WhatIf.IsPresent)
             {
-                Write-Host "WhatIf: git pull -p '$_'"
+                Write-Information -InformationAction 'Continue' -MessageData "WhatIf: git pull -p '$_'"
             }
             else
             {

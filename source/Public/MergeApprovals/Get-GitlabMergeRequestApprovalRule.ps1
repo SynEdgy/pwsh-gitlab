@@ -27,7 +27,7 @@ function Get-GitlabMergeRequestApprovalRule
         $Resource += "/$ApprovalRuleId"
     }
 
-    Invoke-GitlabApi GET $Resource -SiteUrl $SiteUrl
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -SiteUrl $SiteUrl
         | New-WrapperObject 'Gitlab.MergeRequestApprovalRule'
         | Add-Member -MemberType 'NoteProperty' -Name 'ProjectId' -Value $Project.Id -PassThru
 }

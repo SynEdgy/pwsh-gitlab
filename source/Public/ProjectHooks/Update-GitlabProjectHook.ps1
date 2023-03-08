@@ -1,8 +1,10 @@
 
 # https://docs.gitlab.com/ee/api/projects.html#hooks
 
-function Update-GitlabProjectHook {
-    param (
+function Update-GitlabProjectHook
+{
+    param
+    (
       [Parameter(ValueFromPipelineByPropertyName = $true)]
       [string]
       $ProjectId = '.',
@@ -105,19 +107,19 @@ function Update-GitlabProjectHook {
         wiki_page_events           = $WikiPageEvents
     }
 
-    if($PushEventsBranchFilter)
+    if ($PushEventsBranchFilter)
     {
         $Request += @{
             push_events_branch_filter = $PushEventsBranchFilter
         }
     }
 
-    if($Token)
+    if ($Token)
     {
         $Request += @{
             token = $Token
         }
     }
 
-    Invoke-GitlabApi PUT $UpdateRequest $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.ProjectHook'
+    Invoke-GitlabApi -HttpMethod 'PUT' -Path $UpdateRequest $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.ProjectHook'
   }

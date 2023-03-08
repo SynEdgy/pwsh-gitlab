@@ -18,8 +18,8 @@ function Remove-GitlabPipelineSchedule
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

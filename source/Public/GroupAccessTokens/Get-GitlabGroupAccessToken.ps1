@@ -15,8 +15,8 @@ function Get-GitlabGroupAccessToken
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -26,5 +26,5 @@ function Get-GitlabGroupAccessToken
         $Resource += "/$TokenId"
     }
 
-    Invoke-GitlabApi GET $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.AccessToken'
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.AccessToken'
 }

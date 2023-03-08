@@ -28,7 +28,7 @@ function Resolve-GitlabVariable
 
         ByGroup   { Get-GitlabGroup $GroupId | Resolve-GitlabVariable $Key -SiteUrl $SiteUrl }
 
-        Default
+        default
         {
             Write-Verbose -Message "checking for $Key on $($Context.psobject.TypeNames | Select-Object -First 1)..."
             if ($Context.ProjectId)

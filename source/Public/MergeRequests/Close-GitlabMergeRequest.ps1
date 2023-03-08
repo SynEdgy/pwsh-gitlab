@@ -13,7 +13,7 @@ function Close-GitlabMergeRequest
         [string]
         $MergeRequestId,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [switch]
         $WhatIf
     )

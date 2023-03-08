@@ -16,8 +16,8 @@ function Rename-GitlabProject
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

@@ -39,7 +39,7 @@ function Update-GitlabUserMembership
             $Group = Get-GitlabGroup -GroupId $GroupId
             if ($PSCmdLet.ShouldProcess($Group.FullName, "update $($User.Username)'s membership access level to '$AccessLevel' on group"))
             {
-                $Rows = Invoke-GitlabApi PUT "groups/$($Group.Id)/members/$($User.Id)" @{
+                $Rows = Invoke-GitlabApi -HttpMethod 'PUT' -Path "groups/$($Group.Id)/members/$($User.Id)" @{
                     access_level = $AccessLevelLiteral
                 } -SiteUrl $SiteUrl
             }
@@ -49,7 +49,7 @@ function Update-GitlabUserMembership
             $Project = Get-GitlabProject -ProjectId $ProjectId
             if ($PSCmdLet.ShouldProcess($Project.PathWithNamespace, "update $($User.Username)'s membership access level to '$AccessLevel' on project"))
             {
-                $Rows = Invoke-GitlabApi PUT "projects/$($Project.Id)/members/$($User.Id)" @{
+                $Rows = Invoke-GitlabApi -HttpMethod 'PUT' -Path "projects/$($Project.Id)/members/$($User.Id)" @{
                     access_level = $AccessLevelLiteral
                 }  -SiteUrl $SiteUrl
             }

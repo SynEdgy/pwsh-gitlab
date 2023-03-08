@@ -29,8 +29,8 @@ function New-GitlabGroupShareLink
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -42,5 +42,5 @@ function New-GitlabGroupShareLink
         expires_at   = $ExpiresAt
     }
 
-    Invoke-GitlabApi POST "groups/$GroupId/share" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Group'
+    Invoke-GitlabApi -HttpMethod 'POST' -Path "groups/$GroupId/share" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Group'
 }

@@ -16,8 +16,8 @@ function Stop-GitlabEnvironment
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -34,6 +34,6 @@ function Stop-GitlabEnvironment
 
         $null = Invoke-GitlabApi @GitlabApiArguments -WhatIf:$WhatIf
 
-        Write-Host "Environment '$($Environment.Name)' (id: $($Environment.Id)) has been stopped"
+        Write-Information -InformationAction 'Continue' -MessageData "Environment '$($Environment.Name)' (id: $($Environment.Id)) has been stopped"
     }
 }

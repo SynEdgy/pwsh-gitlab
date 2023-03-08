@@ -65,5 +65,5 @@ function Get-GitlabCommit
         $Url += "/$Sha"
     }
 
-    Invoke-GitlabApi GET $Url -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.Commit'
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Url -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.Commit'
 }

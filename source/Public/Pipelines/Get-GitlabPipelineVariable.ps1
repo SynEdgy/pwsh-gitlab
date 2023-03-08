@@ -16,12 +16,12 @@ function Get-GitlabPipelineVariable
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $Project = Get-GitlabProject $ProjectId
 
-    Invoke-GitlabApi GET "projects/$($Project.Id)/pipelines/$PipelineId/variables" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject
+    Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($Project.Id)/pipelines/$PipelineId/variables" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject
 }

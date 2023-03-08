@@ -82,17 +82,17 @@ function Update-GitlabRunner
         $Params.Query.maximum_timeout = $MaximumTimeoutSeconds
     }
 
-    if ($Active -ne $null)
+    if ($null -ne $Active)
     {
         $Params.Query.active = $Active.ToString().ToLower()
     }
 
-    if ($RunUntaggedJobs -ne $null)
+    if ($null -ne $RunUntaggedJobs)
     {
         $Params.Query.run_untagged = $RunUntaggedJobs.ToString().ToLower()
     }
 
-    if ($Locked -ne $null)
+    if ($null -ne $Locked)
     {
         $Params.Query.locked = $Locked.ToString().ToLower()
     }

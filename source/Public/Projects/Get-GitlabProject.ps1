@@ -101,12 +101,12 @@ function Get-GitlabProject
         [string]
         $Select,
 
-        [switch]
         [Parameter(ParameterSetName = 'ByGroup')]
+        [switch]
         $IncludeArchived = $false,
 
-        [switch]
         [Parameter()]
+        [switch]
         $All,
 
         [Parameter()]
@@ -117,8 +117,8 @@ function Get-GitlabProject
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -145,7 +145,7 @@ function Get-GitlabProject
                 }
             }
 
-            $Projects = Invoke-GitlabApi GET "projects/$($ProjectId | ConvertTo-UrlEncoded)" -SiteUrl $SiteUrl -WhatIf:$WhatIf
+            $Projects = Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($ProjectId | ConvertTo-UrlEncoded)" -SiteUrl $SiteUrl -WhatIf:$WhatIf
         }
 
         ByGroup {
@@ -159,7 +159,7 @@ function Get-GitlabProject
                 $Query['archived'] = 'false'
             }
 
-            $Projects = Invoke-GitlabApi GET "groups/$($Group.Id)/projects" $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+            $Projects = Invoke-GitlabApi -HttpMethod 'GET' -Path "groups/$($Group.Id)/projects" -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf |
                 Where-Object { $($_.path_with_namespace).StartsWith($Group.FullPath) } |
                 Sort-Object -Property 'Name'
         }
@@ -176,11 +176,11 @@ function Get-GitlabProject
                 $UserId = Get-GitlabUser -Me | Select-Object -ExpandProperty Username
             }
 
-            $Projects = Invoke-GitlabApi GET "users/$UserId/projects"
+            $Projects = Invoke-GitlabApi -HttpMethod 'GET' -Path "users/$UserId/projects"
         }
 
         ByTopics {
-            $Projects = Invoke-GitlabApi GET "projects" -Query @{
+            $Projects = Invoke-GitlabApi -HttpMethod 'GET' -Path "projects" -Query @{
                 topic = $Topics -join ','
             } -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf
         }

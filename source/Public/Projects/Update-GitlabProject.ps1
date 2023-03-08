@@ -64,7 +64,7 @@ function Update-GitlabProject
 
     $Query = @{}
 
-    if($CiForwardDeployment)
+    if ($CiForwardDeployment)
     {
         $Query.ci_forward_deployment_enabled = $CiForwardDeployment
     }
@@ -116,7 +116,7 @@ function Update-GitlabProject
 
     if ($PSCmdlet.ShouldProcess("$($Project.PathWithNamespace)", "update project ($($Query | ConvertTo-Json))"))
     {
-        Invoke-GitlabApi PUT "projects/$($Project.Id)" $Query -SiteUrl $SiteUrl |
+        Invoke-GitlabApi -HttpMethod 'PUT' -Path "projects/$($Project.Id)" -Query $Query -SiteUrl $SiteUrl |
             New-WrapperObject 'Gitlab.Project'
     }
 }

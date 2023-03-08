@@ -24,7 +24,7 @@ function Remove-GitlabProjectIntegration
 
     if ($PSCmdlet.ShouldProcess("$Resource", "delete"))
     {
-        $null = Invoke-GitlabApi DELETE $Resource -Body $Settings -SiteUrl $SiteUrl
-        Write-Host "Deleted $Integration integration from $($Project.PathWithNamespace)"
+        $null = Invoke-GitlabApi -HttpMethod 'DELETE' -Path $Resource -Body $Settings -SiteUrl $SiteUrl
+        Write-Information -InformationAction 'Continue' -MessageData "Deleted $Integration integration from $($Project.PathWithNamespace)"
     }
 }

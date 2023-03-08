@@ -18,20 +18,20 @@ function Get-GitlabEnvironment
         [string]
         $Search,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [switch]
         $IncludeStopped,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [int]
         $MaxPages = 1,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [string]
         $SiteUrl,
 
+        [Parameter()]
         [switch]
-        [Parameter(Mandatory = $false)]
         $WhatIf
     )
 

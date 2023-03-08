@@ -17,12 +17,12 @@ function Remove-GitlabGroupVariable
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $GroupId = $GroupId | ConvertTo-UrlEncoded
 
-    $null = Invoke-GitlabApi DELETE "groups/$GroupId/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf
+    $null = Invoke-GitlabApi -HttpMethod 'DELETE' -Path "groups/$GroupId/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf
 }

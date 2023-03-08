@@ -9,7 +9,7 @@ function Open-InBrowser
         $InputObject
     )
 
-    Process
+    process
     {
         if (-not $InputObject)
         {

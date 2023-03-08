@@ -18,12 +18,12 @@ function Remove-GitlabProjectHook
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $Project = Get-GitlabProject $ProjectId -SiteUrl $SiteUrl -WhatIf:$WhatIf
     $Resource = "projects/$($Project.Id)/hooks/$($Id)"
-    Invoke-GitlabApi DELETE $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf
+    Invoke-GitlabApi -HttpMethod 'DELETE' -Path $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf
   }

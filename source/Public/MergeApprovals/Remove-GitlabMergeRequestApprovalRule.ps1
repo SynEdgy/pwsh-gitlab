@@ -22,6 +22,6 @@ function Remove-GitlabMergeRequestApprovalRule
 
     if ($PSCmdlet.ShouldProcess($Project.PathWithNamespace, "remove merge request approval rule '$MergeRequestApprovalRuleId'"))
     {
-        Invoke-GitlabApi DELETE "projects/$($Project.Id)/approval_rules/$MergeRequestApprovalRuleId" -SiteUrl $SiteUrl
+        Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($Project.Id)/approval_rules/$MergeRequestApprovalRuleId" -SiteUrl $SiteUrl
     }
 }

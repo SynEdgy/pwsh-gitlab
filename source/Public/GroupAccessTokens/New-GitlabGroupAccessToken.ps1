@@ -24,20 +24,20 @@ function New-GitlabGroupAccessToken
         [ValidateSet('guest', 'reporter', 'developer', 'maintainer', 'owner')]
         $AccessLevel = 'maintainer',
 
-        [switch]
         [Parameter()]
+        [switch]
         $CopyToClipboard,
 
         [Parameter()]
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
-    $Response = Invoke-GitlabApi POST "groups/$GroupId/access_tokens" -Body @{
+    $Response = Invoke-GitlabApi -HttpMethod 'POST' -Path "groups/$GroupId/access_tokens" -Body @{
         name         = $Name
         scopes       = $Scope
         access_level = Get-GitlabMemberAccessLevel $AccessLevel

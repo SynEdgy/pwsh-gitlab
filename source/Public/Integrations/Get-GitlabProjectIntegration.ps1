@@ -28,5 +28,5 @@ function Get-GitlabProjectIntegration
         $Resource += "/$Integration"
     }
 
-    Invoke-GitlabApi GET $Resource -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.ProjectIntegration'
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.ProjectIntegration'
 }

@@ -18,14 +18,14 @@ function New-GitlabBranch
         [string]
         $Ref,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $ProjectId = $(Get-GitlabProject -ProjectId $ProjectId).Id
 
-    Invoke-GitlabApi POST "projects/$ProjectId/repository/branches" @{
+    Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$ProjectId/repository/branches" @{
         branch = $Branch
         ref = $Ref
     } -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Branch'

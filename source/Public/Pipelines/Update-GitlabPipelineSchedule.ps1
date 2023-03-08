@@ -39,8 +39,8 @@ function Update-GitlabPipelineSchedule
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

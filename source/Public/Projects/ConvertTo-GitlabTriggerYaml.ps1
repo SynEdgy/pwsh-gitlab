@@ -4,6 +4,7 @@ function ConvertTo-GitlabTriggerYaml
     param
     (
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [object]
         $InputObject,
 
         [Parameter()]
@@ -16,7 +17,7 @@ function ConvertTo-GitlabTriggerYaml
         $StageName = 'trigger'
     )
 
-    Begin
+    begin
     {
         $Yaml = @"
 stages:
@@ -33,7 +34,7 @@ stages:
         }
     }
 
-    Process
+    process
     {
         foreach ($Object in $InputObject)
         {
@@ -54,7 +55,7 @@ $($Object.Name):
         }
     }
 
-    End
+    end
     {
         $Yaml
     }

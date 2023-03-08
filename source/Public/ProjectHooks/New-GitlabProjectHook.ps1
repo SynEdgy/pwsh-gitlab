@@ -79,8 +79,8 @@ function New-GitlabProjectHook
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -105,19 +105,19 @@ function New-GitlabProjectHook
         wiki_page_events           = $WikiPageEvents
     }
 
-    if($PushEventsBranchFilter)
+    if ($PushEventsBranchFilter)
     {
         $Request += @{
             push_events_branch_filter = $PushEventsBranchFilter
         }
     }
 
-    if($Token)
+    if ($Token)
     {
         $Request += @{
             token = $Token
         }
     }
 
-    Invoke-GitlabApi POST $Resource @Request -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.ProjectHook'
+    Invoke-GitlabApi -HttpMethod 'POST' -Path $Resource @Request -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.ProjectHook'
   }

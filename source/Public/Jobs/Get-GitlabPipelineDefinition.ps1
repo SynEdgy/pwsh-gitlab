@@ -17,8 +17,8 @@ function Get-GitlabPipelineDefinition
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

@@ -32,8 +32,8 @@ function Update-GitlabMergeRequest
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -60,5 +60,5 @@ function Update-GitlabMergeRequest
         $Query['description'] = $Description
     }
 
-    Invoke-GitlabApi PUT "projects/$ProjectId/merge_requests/$MergeRequestId" $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.MergeRequest'
+    Invoke-GitlabApi -HttpMethod 'PUT' -Path "projects/$ProjectId/merge_requests/$MergeRequestId" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.MergeRequest'
 }

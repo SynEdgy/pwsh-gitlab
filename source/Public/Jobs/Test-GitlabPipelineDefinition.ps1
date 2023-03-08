@@ -20,8 +20,8 @@ function Test-GitlabPipelineDefinition
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

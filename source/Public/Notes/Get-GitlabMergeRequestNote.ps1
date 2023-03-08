@@ -21,8 +21,8 @@ function Get-GitlabMergeRequestNote
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -35,5 +35,5 @@ function Get-GitlabMergeRequestNote
         $Url += "/$NoteId"
     }
 
-    Invoke-GitlabApi GET $Url -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Note'
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Url -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Note'
 }

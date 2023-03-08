@@ -48,8 +48,8 @@ function Get-GitlabIssue
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -108,7 +108,7 @@ function Get-GitlabIssue
         $Query.created_after = $CreatedAfter
     }
 
-    Invoke-GitlabApi GET $Path $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Path -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf |
         New-WrapperObject 'Gitlab.Issue' |
         Sort-Object SortKey
 }

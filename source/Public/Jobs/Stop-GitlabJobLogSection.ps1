@@ -26,15 +26,14 @@ function Stop-GitlabJobLogSection
         #
     )
 
-    if ($Global:GitlabJobLogSections.Count -eq 0)
+    if ($GitlabJobLogSections.Count -eq 0)
     {
         # explicitly do nothing
         # most likely case is if stop is called more than start
         return
     }
 
-    $PreviousId = $Global:GitlabJobLogSections.Pop()
+    $PreviousId = $GitlabJobLogSections.Pop()
     $Timestamp = Get-EpochTimestamp
-    #TODO: replace the Write-Host with verbose or debug
-    Write-Host "section_end:$($Timestamp):$PreviousId`r`e[0K"
+    Write-Information -InformationAction 'Continue' -MessageData "section_end:$($Timestamp):$PreviousId`r`e[0K"
 }

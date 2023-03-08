@@ -12,12 +12,12 @@ function Close-GitlabIssue
         [string]
         $IssueId,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [string]
         $SiteUrl,
 
+        [Parameter()]
         [switch]
-        [Parameter(Mandatory = $false)]
         $WhatIf
     )
 

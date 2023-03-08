@@ -4,7 +4,8 @@
 function New-GitlabProject
 {
     [CmdletBinding(SupportsShouldProcess = $true)]
-    param (
+    param
+    (
         [Parameter(Position = 0, Mandatory = $true)]
         [string]
         $ProjectName,
@@ -35,7 +36,7 @@ function New-GitlabProject
     if ($DestinationGroup)
     {
         $Group = Get-GitlabGroup -GroupId $DestinationGroup
-        if(-not $Group)
+        if (-not $Group)
         {
             throw "DestinationGroup '$DestinationGroup' not found"
         }
@@ -50,7 +51,7 @@ function New-GitlabProject
 
     if ($PSCmdlet.ShouldProcess($NamespaceId, "create new project '$ProjectName'" ))
     {
-        $Project = Invoke-GitlabApi POST "projects" @{
+        $Project = Invoke-GitlabApi -HttpMethod 'POST' -Path "projects" @{
             name         = $ProjectName
             namespace_id = $NamespaceId
             visibility   = $Visibility

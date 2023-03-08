@@ -32,7 +32,7 @@ function Get-GitlabPipelineScheduleVariable
     $Wrapper | Add-Member -MemberType 'NoteProperty' -Name 'ProjectId' -Value $Project.Id
     $Wrapper | Add-Member -MemberType 'NoteProperty' -Name 'PipelineScheduleId' -Value $PipelineSchedule.Id
 
-    if($Key)
+    if ($Key)
     {
         $Wrapper = $Wrapper | Where-Object { $_.Key -eq $Key }
     }

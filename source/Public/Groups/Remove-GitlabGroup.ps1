@@ -5,11 +5,11 @@ function Remove-GitlabGroup
     [CmdletBinding(SupportsShouldProcess)]
     param
     (
-        [Parameter(Position=0, Mandatory=$false)]
+        [Parameter(Position=0)]
         [string]
         $GroupId,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter()]
         [string]
         $SiteUrl
     )
@@ -18,8 +18,8 @@ function Remove-GitlabGroup
 
     if ($PSCmdlet.ShouldProcess($Group.FullPath, "delete group"))
     {
-        $null = Invoke-GitlabApi DELETE "groups/$($Group.Id)" -SiteUrl $SiteUrl
+        $null = Invoke-GitlabApi -HttpMethod 'DELETE' -Path "groups/$($Group.Id)" -SiteUrl $SiteUrl
         # TODO: change this write host to verbose or debug
-        Write-Host -Object "$($Group.FullPath) deleted"
+        Write-Information -InformationAction 'Continue' -MessageData "$($Group.FullPath) deleted"
     }
 }

@@ -29,8 +29,8 @@ function Get-GitlabPipelineSchedule
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -50,7 +50,7 @@ function Get-GitlabPipelineSchedule
         }
 
         ByProjectId {
-            if($Scope)
+            if ($Scope)
             {
                 $GitlabApiArguments.Query.scope = $Scope
             }
@@ -64,7 +64,7 @@ function Get-GitlabPipelineSchedule
 
     #Because the api only includes variables when requesting the pipeline schedule by id. Do a little recursion
     #Switch is only part of the ByProjectId parameter set
-    if($IncludeVariables)
+    if ($IncludeVariables)
     {
         $Wrapper = $Wrapper | ForEach-Object {Get-GitlabPipelineSchedule -ProjectId $_.ProjectId -PipelineScheduleId $_.Id  }
     }

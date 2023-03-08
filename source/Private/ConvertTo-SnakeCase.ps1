@@ -4,11 +4,12 @@ function ConvertTo-SnakeCase
     [CmdletBinding()]
     param
     (
-        [Parameter(Position=0, ValueFromPipeline=$true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
+        [Object]
         $InputObject
     )
 
-    Process
+    process
     {
         foreach ($Value in $InputObject)
         {

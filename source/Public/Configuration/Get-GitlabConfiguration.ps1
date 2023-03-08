@@ -19,14 +19,14 @@ function Get-GitlabConfiguration
         } | New-WrapperObject 'Gitlab.Configuration'
     }
 
-    if (-not (Test-Path $global:GitlabConfigurationPath))
+    if (-not (Test-Path $GitlabConfigurationPath))
     {
-        Write-Warning "GitlabCli: Creating blank configuration file '$global:GitlabConfigurationPath'"
+        Write-Warning "GitlabCli: Creating blank configuration file '$GitlabConfigurationPath'"
 
         @{
             Sites = @()
         } | Write-GitlabConfiguration
     }
 
-    Get-Content $global:GitlabConfigurationPath | ConvertFrom-Json | New-WrapperObject 'Gitlab.Configuration'
+    Get-Content $GitlabConfigurationPath | ConvertFrom-Json | New-WrapperObject 'Gitlab.Configuration'
 }

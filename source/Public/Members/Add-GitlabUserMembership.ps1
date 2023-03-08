@@ -30,11 +30,11 @@ function Add-GitlabUserMembership
     $Group = Get-GitlabGroup -GroupId $GroupId
     $User = Get-GitlabUser -UserId $Username
 
-    $null = Invoke-GitlabApi POST "groups/$($Group.Id)/members" @{
+    $null = Invoke-GitlabApi -HttpMethod 'POST' -Path "groups/$($Group.Id)/members" @{
         user_id = $User.Id
         access_level = Get-GitlabMemberAccessLevel $AccessLevel
     }  -SiteUrl $SiteUrl -WhatIf:$WhatIf
 
     #TODO: Replace this write host with verbose or debug
-    Write-Host "$($User.Username) added to $($Group.FullPath)"
+    Write-Information -InformationAction 'Continue' -MessageData "$($User.Username) added to $($Group.FullPath)"
 }

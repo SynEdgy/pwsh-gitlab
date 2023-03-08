@@ -28,8 +28,8 @@ function Remove-GitlabGroupAccessToken
 
     try
     {
-        $null = Invoke-GitlabApi DELETE $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf
-        Write-Host "$TokenId revoked from $GroupId"
+        $null = Invoke-GitlabApi -HttpMethod 'DELETE' -Path $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf
+        Write-Information -InformationAction 'Continue' -MessageData "$TokenId revoked from $GroupId"
     }
     catch
     {

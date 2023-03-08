@@ -64,8 +64,8 @@ function Get-GitlabPipeline
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -86,9 +86,9 @@ function Get-GitlabPipeline
         ByProjectId {
             $Query = @{}
 
-            if($Ref)
+            if ($Ref)
             {
-                if($Ref -eq '.')
+                if ($Ref -eq '.')
                 {
                     $LocalContext = Get-LocalGitContext
                     $Ref = $LocalContext.Branch
@@ -142,7 +142,7 @@ function Get-GitlabPipeline
         $Pipelines | ForEach-Object {
             try
             {
-                $TestReport = Invoke-GitlabApi GET "projects/$($_.ProjectId)/pipelines/$($_.Id)/test_report" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.TestReport'
+                $TestReport = Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($_.ProjectId)/pipelines/$($_.Id)/test_report" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.TestReport'
             }
             catch
             {
@@ -209,7 +209,7 @@ function Get-GitlabPipeline
                 }
                 catch
                 {
-                    #
+                    Write-Debug -Message ('Exception caught: {0}' -f $_)
                 }
             }
         }

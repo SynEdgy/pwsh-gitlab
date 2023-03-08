@@ -27,8 +27,8 @@ function Update-GitlabGroup
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -51,5 +51,5 @@ function Update-GitlabGroup
         $Body.visibility = $Visibility
     }
 
-    Invoke-GitlabApi PUT "groups/$GroupId" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Group'
+    Invoke-GitlabApi -HttpMethod 'PUT' -Path "groups/$GroupId" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Group'
 }

@@ -2,7 +2,7 @@
 # https://docs.gitlab.com/ee/api/users.html#user-memberships-admin-only
 function Get-GitlabUserMembership
 {
-    [CmdletBinding(DefaultParameterSetName='ByUsername')]
+    [CmdletBinding(DefaultParameterSetName = 'ByUsername')]
     param
     (
         [Parameter(ParameterSetName = 'ByUsername', Position = 0, Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
@@ -17,8 +17,8 @@ function Get-GitlabUserMembership
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -29,6 +29,6 @@ function Get-GitlabUserMembership
 
     $User = Get-GitlabUser -Username $Username -SiteUrl $SiteUrl
 
-    Invoke-GitlabApi GET "users/$($User.Id)/memberships" -MaxPages 10 -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+    Invoke-GitlabApi -HttpMethod 'GET' -Path "users/$($User.Id)/memberships" -MaxPages 10 -SiteUrl $SiteUrl -WhatIf:$WhatIf |
         New-WrapperObject 'Gitlab.UserMembership'
 }

@@ -18,12 +18,12 @@ function Remove-GitlabGroupShareLink
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $GroupId = $GroupId | ConvertTo-UrlEncoded
 
-    $null = Invoke-GitlabApi DELETE "groups/$GroupId/share/$GroupShareId" -SiteUrl $SiteUrl -WhatIf:$WhatIf
+    $null = Invoke-GitlabApi -HttpMethod 'DELETE' -Path "groups/$GroupId/share/$GroupShareId" -SiteUrl $SiteUrl -WhatIf:$WhatIf
 }

@@ -6,7 +6,7 @@ function Get-GitlabUserEvent
     [CmdletBinding(DefaultParameterSetName = 'ByUserId')]
     param
     (
-        [Parameter(ParameterSetName = 'ByUserId', Mandatory = $false)]
+        [Parameter(ParameterSetName = 'ByUserId')]
         [Alias('Username')]
         [string]
         $UserId,
@@ -96,12 +96,12 @@ function Get-GitlabUserEvent
         $Query.action = $Action
     }
 
-    if($Sort)
+    if ($Sort)
     {
         $Query.sort = $Sort
     }
 
-    $Events = Invoke-GitlabApi GET "users/$($User.Id)/events" -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+    $Events = Invoke-GitlabApi -HttpMethod 'GET' -Path "users/$($User.Id)/events" -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf |
         New-WrapperObject 'Gitlab.Event'
 
     if ($FetchProjects)

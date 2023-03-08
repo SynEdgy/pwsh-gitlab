@@ -13,7 +13,7 @@ function New-WrapperObject
         $DisplayType
     )
 
-    Process
+    process
     {
         foreach ($item in $InputObject)
         {
@@ -31,8 +31,8 @@ function New-WrapperObject
             {
                 $Wrapper.PSTypeNames.Insert(0, $DisplayType)
 
-                $IdentityPropertyName = $global:GitlabIdentityPropertyNameExemptions[$DisplayType]
-                if ($IdentityPropertyName -eq $null)
+                $IdentityPropertyName = $GitlabIdentityPropertyNameExemptions[$DisplayType]
+                if ($null -eq $IdentityPropertyName)
                 {
                     $IdentityPropertyName = 'Iid' # default for anything that isn't explicitly mapped
                 }

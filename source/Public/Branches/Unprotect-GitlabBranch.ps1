@@ -24,6 +24,6 @@ function UnProtect-GitlabBranch
 
     if ($PSCmdlet.ShouldProcess("$($Project.PathWithNamespace)/branches/$($Name)", "unprotect branch $($Name)"))
     {
-        Invoke-GitlabApi DELETE "projects/$($Project.Id)/protected_branches/$($Name)" -SiteUrl $SiteUrl
+        Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($Project.Id)/protected_branches/$($Name)" -SiteUrl $SiteUrl
     }
 }

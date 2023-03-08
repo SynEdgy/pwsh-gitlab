@@ -1,7 +1,8 @@
 
 #TODO: singlar function
 
-function Test-IsConfigurationEnvironmentVariables {
+function Test-IsConfigurationEnvironmentVariables
+{
     [CmdletBinding()]
     param
     (

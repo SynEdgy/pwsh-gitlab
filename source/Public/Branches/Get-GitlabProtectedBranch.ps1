@@ -6,7 +6,7 @@ function Get-GitlabProtectedBranch
     [CmdletBinding()]
     param
     (
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [string]
         $ProjectId = '.',
 
@@ -29,7 +29,7 @@ function Get-GitlabProtectedBranch
 
     try
     {
-        Invoke-GitlabApi GET $Resource -Query $Query -SiteUrl $SiteUrl
+        Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -Query $Query -SiteUrl $SiteUrl
             | New-WrapperObject 'Gitlab.ProtectedBranch'
             | Add-Member -MemberType 'NoteProperty' -Name 'ProjectId' -Value $Project.Id -PassThru
     }
@@ -37,7 +37,7 @@ function Get-GitlabProtectedBranch
     {
         if ($_.Exception.Response.StatusCode.ToString() -eq 'NotFound')
         {
-            @()
+            Write-Information -InformationAction 'Continue' -MessageData ('Protected Branch {0} not found.' -f $Name)
         }
         else
         {

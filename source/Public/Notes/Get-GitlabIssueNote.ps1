@@ -16,12 +16,12 @@ function Get-GitlabIssueNote
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $Project = Get-GitlabProject $ProjectId
 
-    Invoke-GitlabApi GET "projects/$($Project.Id)/issues/$IssueId/notes" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Note'
+    Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($Project.Id)/issues/$IssueId/notes" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Note'
 }

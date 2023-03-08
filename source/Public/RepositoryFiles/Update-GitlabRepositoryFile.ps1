@@ -39,8 +39,8 @@ function Update-GitlabRepositoryFile
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -51,7 +51,7 @@ function Update-GitlabRepositoryFile
         $Branch = $Project.DefaultBranch
     }
 
-    $Body = @{
+    $body = @{
         branch         = $Branch
         content        = $Content
         commit_message = $CommitMessage
@@ -59,7 +59,7 @@ function Update-GitlabRepositoryFile
 
     if ($SkipCi)
     {
-        $Body.commit_message += "`n[skip ci]"
+        $body.commit_message += "`n[skip ci]"
     }
 
     if (-not $SkipEqualityCheck)
@@ -67,15 +67,13 @@ function Update-GitlabRepositoryFile
         $CurrentContent = Get-GitlabRepositoryFileContent -ProjectId $Project.Id -Ref $Branch -FilePath $FilePath -SiteUrl $SiteUrl
         if ($CurrentContent -eq $Content)
         {
-            #TODO: Replace write-host with verbose or debug
-            Write-Host "$FilePath contents is identical, skipping update"
+            Write-Information -InformationAction 'Continue' -MessageData "$FilePath contents is identical, skipping update"
             return
         }
     }
 
-    if (Invoke-GitlabApi PUT "projects/$($Project.Id)/repository/files/$($FilePath | ConvertTo-UrlEncoded)" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf)
+    if (Invoke-GitlabApi -HttpMethod 'PUT' -Path "projects/$($Project.Id)/repository/files/$($FilePath | ConvertTo-UrlEncoded)" -Body $body -SiteUrl $SiteUrl -WhatIf:$WhatIf)
     {
-        #TODO: Replace write-host with verbose or debug
-        Write-Host "Updated $FilePath in $($Project.Name) ($Branch)"
+        Write-Information -InformationAction 'Continue' -MessageData "Updated $FilePath in $($Project.Name) ($Branch)"
     }
 }

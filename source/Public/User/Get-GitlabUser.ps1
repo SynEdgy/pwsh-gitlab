@@ -27,7 +27,7 @@ function Get-GitlabUser
         if (-not [uint]::TryParse($UserId, [ref] $null))
         {
             $ErrorMessage = "$UserId not found" # pre-compute as we re-assign below
-            $UserId = Invoke-GitlabApi GET "users" @{
+            $UserId = Invoke-GitlabApi -HttpMethod 'GET' -Path "users" @{
                 username = $UserId
             } | Select-Object -First 1 -ExpandProperty id
 
@@ -37,12 +37,12 @@ function Get-GitlabUser
             }
         }
 
-        Invoke-GitlabApi GET "users/$UserId" -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.User'
+        Invoke-GitlabApi -HttpMethod 'GET' -Path "users/$UserId" -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.User'
     }
 
     if ($EmailAddress)
     {
-        $UserId = Invoke-GitlabApi GET "search" @{
+        $UserId = Invoke-GitlabApi -HttpMethod 'GET' -Path "search" @{
             scope  = 'users'
             search = $EmailAddress
         } -SiteUrl $SiteUrl | Select-Object -First 1 -ExpandProperty id
@@ -52,7 +52,7 @@ function Get-GitlabUser
             throw "No user found for $EmailAddress"
         }
 
-        Invoke-GitlabApi GET "users/$UserId" -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.User'
+        Invoke-GitlabApi -HttpMethod 'GET' -Path "users/$UserId" -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.User'
     }
 
     if ($Me)

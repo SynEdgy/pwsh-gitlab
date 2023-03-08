@@ -15,8 +15,8 @@ function Get-GitlabRunnerJobs
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

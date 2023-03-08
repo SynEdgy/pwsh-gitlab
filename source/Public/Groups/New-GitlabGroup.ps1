@@ -38,7 +38,7 @@ function New-GitlabGroup
 
     if ($PSCmdlet.ShouldProcess($GroupName, "create new $Visibility group '$GroupName'" ))
     {
-        Invoke-GitlabApi POST "groups" $Query -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference |
+        Invoke-GitlabApi -HttpMethod 'POST' -Path "groups" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIfPreference |
             New-WrapperObject 'Gitlab.Group'
     }
 }

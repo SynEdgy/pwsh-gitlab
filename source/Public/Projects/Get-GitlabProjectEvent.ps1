@@ -31,30 +31,30 @@ function Get-GitlabProjectEvent
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $Project = Get-GitLabProject $ProjectId
 
     $Query = @{}
-    if($Before)
+    if ($Before)
     {
         $Query.before = $Before
     }
 
-    if($After)
+    if ($After)
     {
         $Query.after = $After
     }
 
-    if($Sort)
+    if ($Sort)
     {
         $Query.sort = $Sort
     }
 
-    Invoke-GitlabApi GET "projects/$($Project.Id)/events" `
+    Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($Project.Id)/events" `
         -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf |
         New-WrapperObject 'Gitlab.Event'
 }

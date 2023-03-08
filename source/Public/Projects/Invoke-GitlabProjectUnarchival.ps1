@@ -18,19 +18,19 @@ function Invoke-GitlabProjectUnarchival
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
-    Process
+    process
     {
         if ($PSCmdlet.ParameterSetName -eq 'ByProjectId')
         {
             $Project = $(Get-GitlabProject -ProjectId $ProjectId)
         }
 
-        Invoke-GitlabApi POST "projects/$($Project.Id)/unarchive" -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+        Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($Project.Id)/unarchive" -SiteUrl $SiteUrl -WhatIf:$WhatIf |
             New-WrapperObject 'Gitlab.Project'
     }
 }

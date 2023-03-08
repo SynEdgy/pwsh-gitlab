@@ -33,6 +33,6 @@ function New-GitlabMergeRequestApprovalRule
 
     if ($PSCmdlet.ShouldProcess($Project.PathWithNamespace, "create new merge request approval rule $($Rule | ConvertTo-Json)"))
     {
-        Invoke-GitlabApi POST $Resource -Body $Rule -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.MergeRequestApprovalRule'
+        Invoke-GitlabApi -HttpMethod 'POST' -Path $Resource -Body $Rule -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.MergeRequestApprovalRule'
     }
 }

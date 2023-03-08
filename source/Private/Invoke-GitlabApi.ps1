@@ -82,9 +82,9 @@ function Invoke-GitlabApi
 
     $SerializedQuery = ''
     $Delimiter = '?'
-    if($Query.Count -gt 0)
+    if ($Query.Count -gt 0)
     {
-        foreach($Name in $Query.Keys)
+        foreach ($Name in $Query.Keys)
         {
             $Value = $Query[$Name]
             if ($Value)
@@ -100,7 +100,7 @@ function Invoke-GitlabApi
     $Uri = "$GitlabUrl/api/$Api/$Path$SerializedQuery"
 
     $RestMethodParams = @{}
-    if($MaxPages -gt 1)
+    if ($MaxPages -gt 1)
     {
         $RestMethodParams.FollowRelLink = $true
         $RestMethodParams.MaximumFollowRelLink = $MaxPages
@@ -112,10 +112,10 @@ function Invoke-GitlabApi
         $RestMethodParams.Body        = $Body | ConvertTo-Json
     }
 
-    if($WhatIf)
+    if ($WhatIf)
     {
         $SerializedParams = ""
-        if($RestMethodParams.Count -gt 0)
+        if ($RestMethodParams.Count -gt 0)
         {
             $SerializedParams = $RestMethodParams.Keys |
                 ForEach-Object {
@@ -125,13 +125,13 @@ function Invoke-GitlabApi
             $SerializedParams += " "
         }
 
-        Write-Host "WhatIf: $HttpMethod $Uri $SerializedParams"
+        Write-Information -InformationAction 'Continue' -MessageData "WhatIf: $HttpMethod $Uri $SerializedParams"
     }
     else
     {
         Write-Debug -Message "$HttpMethod $Uri"
         $Result = Invoke-RestMethod -Method $HttpMethod -Uri $Uri -Header $Headers @RestMethodParams
-        if($MaxPages -gt 1)
+        if ($MaxPages -gt 1)
         {
             # Unwrap pagination container
             $Result | ForEach-Object {

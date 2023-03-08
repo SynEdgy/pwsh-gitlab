@@ -17,8 +17,8 @@ function Get-GitlabGroupVariable
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -26,10 +26,10 @@ function Get-GitlabGroupVariable
 
     if ($Key)
     {
-        Invoke-GitlabApi GET "groups/$GroupId/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
+        Invoke-GitlabApi -HttpMethod 'GET' -Path "groups/$GroupId/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
     }
     else
     {
-        Invoke-GitlabApi GET "groups/$GroupId/variables" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
+        Invoke-GitlabApi -HttpMethod 'GET' -Path "groups/$GroupId/variables" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
     }
 }

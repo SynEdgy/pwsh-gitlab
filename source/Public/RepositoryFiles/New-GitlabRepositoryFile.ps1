@@ -54,8 +54,8 @@ function New-GitlabRepositoryFile
         $Body.commit_message += "`n[skip ci]"
     }
 
-    if (Invoke-GitlabApi POST "projects/$($Project.Id)/repository/files/$($FilePath | ConvertTo-UrlEncoded)" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf)
+    if (Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($Project.Id)/repository/files/$($FilePath | ConvertTo-UrlEncoded)" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf)
     {
-        Write-Host "Created $FilePath in $($Project.Name) ($Branch)"
+        Write-Information -InformationAction 'Continue' -MessageData "Created $FilePath in $($Project.Name) ($Branch)"
     }
 }

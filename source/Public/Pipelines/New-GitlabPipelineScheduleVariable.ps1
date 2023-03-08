@@ -29,8 +29,8 @@ function New-GitlabPipelineScheduleVariable
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

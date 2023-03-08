@@ -26,8 +26,8 @@ function New-GitlabPipeline
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -49,7 +49,9 @@ function New-GitlabPipeline
     $GitlabApiArguments = @{
         HttpMethod = "POST"
         Path       = "projects/$ProjectId/pipeline"
-        Query      = @{'ref' = $Ref}
+        Query      = @{
+            'ref' = $Ref
+        }
         SiteUrl    = $SiteUrl
     }
 
@@ -57,8 +59,7 @@ function New-GitlabPipeline
 
     if ($Wait)
     {
-        #TODO: Replace the Write-Host with verbose or debug
-        Write-Host "$($Pipeline.Id) created..."
+        Write-Information -InformationAction 'Continue' -MessageData "$($Pipeline.Id) created..."
         while ($True) #TODO: Set a timeout or something
         {
             Start-Sleep -Seconds 5
@@ -69,30 +70,30 @@ function New-GitlabPipeline
             if ($Jobs)
             {
                 Clear-Host
-                Write-Host "$($Pipeline.WebUrl)"
-                Write-Host
+                Write-Information "$($Pipeline.WebUrl)"
+                Write-Information -InformationAction 'Continue' -MessageData ''
                 $Jobs |
                     Where-Object { $_.Status -eq 'success' } |
                         ForEach-Object {
-                            Write-Host "[$($_.Name)] ✅" -ForegroundColor DarkGreen
+                            Write-Information -InformationAction 'Continue' -MessageData "[$($_.Name)] ✅" -ForegroundColor DarkGreen
                         }
                 $Jobs |
                     Where-Object { $_.Status -eq 'failed' } |
                         ForEach-Object {
-                            Write-Host "[$($_.Name)] ❌" -ForegroundColor DarkRed
+                            Write-Information -InformationAction 'Continue' -MessageData "[$($_.Name)] ❌" -ForegroundColor DarkRed
                     }
-                Write-Host #Remove
 
+                Write-Information -InformationAction 'Continue' -MessageData '' #Remove
                 $InProgress = $Jobs |
                     Where-Object { $_.Status -ne 'success' -and $_.Status -ne 'failed' }
                 if ($InProgress)
                 {
                     $InProgress |
                         ForEach-Object {
-                            Write-Host "[$($_.Name)] ⏳" -ForegroundColor DarkYellow
+                            Write-Information -InformationAction 'Continue' -MessageData "[$($_.Name)] ⏳" -ForegroundColor DarkYellow
                             $RecentProgress = $_.Trace -split "`n" | Select-Object -Last 15
                             $RecentProgress | ForEach-Object {
-                                Write-Host "  $_"
+                                Write-Information -InformationAction 'Continue' -MessageData "  $_"
                         }
                     }
                 }

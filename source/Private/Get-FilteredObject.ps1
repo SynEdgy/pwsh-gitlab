@@ -11,7 +11,7 @@ function Get-FilteredObject
         $Select = '*'
     )
 
-    Process
+    process
     {
         foreach ($Object in $InputObject)
         {

@@ -16,5 +16,5 @@ function Get-GitlabMergeRequestApprovalConfiguration
 
     $Project = Get-GitlabProject $ProjectId
 
-    Invoke-GitlabApi GET "projects/$($Project.Id)/approvals" -SiteUrl $SiteUrl | New-WrapperObject
+    Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($Project.Id)/approvals" -SiteUrl $SiteUrl | New-WrapperObject
 }

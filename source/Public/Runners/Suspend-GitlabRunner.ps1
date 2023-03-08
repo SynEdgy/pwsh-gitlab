@@ -12,8 +12,8 @@ function Suspend-GitlabRunner
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

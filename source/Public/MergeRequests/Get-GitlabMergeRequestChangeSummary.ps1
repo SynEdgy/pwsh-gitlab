@@ -56,19 +56,31 @@ function Get-GitlabMergeRequestChangeSummary
     $MergedAt = $MergeRequest.MergedAt
     if ($Summary.ReviewRequestedAt)
     {
-        $Summary.TimeToMerge = @{ Duration = $MergedAt - $Summary.ReviewRequestedAt; Measure = 'FromReviewRequested' }
+        $Summary.TimeToMerge = @{
+            Duration = $MergedAt - $Summary.ReviewRequestedAt
+            Measure = 'FromReviewRequested'
+        }
     }
     elseif ($Summary.AssignedAt)
     {
-        $Summary.TimeToMerge = @{ Duration = $MergedAt - $Summary.AssignedAt; Measure='FromAssigned' }
+        $Summary.TimeToMerge = @{
+            Duration = $MergedAt - $Summary.AssignedAt
+            Measure='FromAssigned'
+        }
     }
     elseif ($Summary.MarkedReadyAt)
     {
-        $Summary.TimeToMerge = @{ Duration = $MergedAt - $Summary.MarkedReadyAt; Measure='FromMarkedReady' }
+        $Summary.TimeToMerge = @{
+            Duration = $MergedAt - $Summary.MarkedReadyAt
+            Measure='FromMarkedReady'
+        }
     }
     else
     {
-        $Summary.TimeToMerge = @{ Duration = $MergedAt - $MergeRequest.CreatedAt; Measure='FromCreated'}
+        $Summary.TimeToMerge = @{
+            Duration = $MergedAt - $MergeRequest.CreatedAt
+            Measure='FromCreated'
+        }
     }
 
     $Summary

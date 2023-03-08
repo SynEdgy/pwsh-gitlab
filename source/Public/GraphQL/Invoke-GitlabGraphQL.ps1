@@ -1,5 +1,6 @@
 # https://docs.gitlab.com/ee/api/graphql/
-function Invoke-GitlabGraphQL {
+function Invoke-GitlabGraphQL
+{
     [CmdletBinding()]
     param
     (
@@ -20,5 +21,5 @@ function Invoke-GitlabGraphQL {
         query = $Query
     }
 
-    Invoke-GitlabApi POST 'graphql' -Api '' -Body $body -SiteUrl $SiteUrl -WhatIf:$WhatIf | Select-Object -ExpandProperty data | New-WrapperObject
+    Invoke-GitlabApi -HttpMethod 'POST' -Path 'graphql' -Api '' -Body $body -SiteUrl $SiteUrl -WhatIf:$WhatIf | Select-Object -ExpandProperty data | New-WrapperObject
 }

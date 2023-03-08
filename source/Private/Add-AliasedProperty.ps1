@@ -3,16 +3,16 @@ function Add-AliasedProperty
 {
     param
     (
-        [PSCustomObject]
         [Parameter(Mandatory = $true, Position = 0)]
+        [PSCustomObject]
         $On,
 
-        [string]
         [Parameter(Mandatory = $true)]
+        [string]
         $From,
 
-        [string]
         [Parameter(Mandatory = $true)]
+        [string]
         $To
     )
 

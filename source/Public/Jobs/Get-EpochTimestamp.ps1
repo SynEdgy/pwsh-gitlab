@@ -2,6 +2,7 @@
 function Get-EpochTimestamp
 {
     [CmdletBinding()]
+    [OutputType([int])]
     param
     (
         #

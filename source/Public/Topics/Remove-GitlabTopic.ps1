@@ -14,10 +14,10 @@ function Remove-GitlabTopic
 
     if ($PSCmdlet.ShouldProcess("topic $TopicId", "delete"))
     {
-        if (Invoke-GitlabApi DELETE "topics/$TopicId" -SiteUrl $SiteUrl)
+        if (Invoke-GitlabApi -HttpMethod 'DELETE' -Path "topics/$TopicId" -SiteUrl $SiteUrl)
         {
             #TODO: Replace this write host for verbose or Debug
-            Write-Host "Topic $TopicId deleted"
+            Write-Information -InformationAction 'Continue' -MessageData "Topic $TopicId deleted"
         }
     }
 }

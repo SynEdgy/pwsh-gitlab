@@ -13,8 +13,8 @@ function Invoke-GitlabMergeRequestReview
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

@@ -18,8 +18,8 @@ function Start-GitlabJob
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

@@ -2,10 +2,10 @@
 function Copy-GitlabGroupToLocalFileSystem
 {
     [Alias("Clone-GitlabGroup")]
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param
     (
-        [Parameter(Position=0, Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [string]
         $GroupId,
 

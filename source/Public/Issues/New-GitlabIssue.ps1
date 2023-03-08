@@ -28,7 +28,7 @@ function New-GitlabIssue
 
     $ProjectId = $(Get-GitlabProject -ProjectId $ProjectId).Id
 
-    Invoke-GitlabApi POST "projects/$ProjectId/issues" -Body @{
+    Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$ProjectId/issues" -Body @{
         title       = $Title
         description = $Description
         assignee_id = $(Get-GitlabUser -Me).Id

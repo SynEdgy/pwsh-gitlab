@@ -16,16 +16,19 @@ function New-GitlabIssueNote
         [string]
         $Note,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [string]
         $SiteUrl,
 
+        [Parameter()]
         [switch]
-        [Parameter(Mandatory = $false)]
         $WhatIf
     )
 
     $Project = Get-GitlabProject $ProjectId
+    $body = @{
+        body = $Note
+    }
 
-    Invoke-GitlabApi POST "projects/$($Project.Id)/issues/$IssueId/notes" -Body @{body = $Note} -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Note'
+    Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($Project.Id)/issues/$IssueId/notes" -Body $body -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Note'
 }

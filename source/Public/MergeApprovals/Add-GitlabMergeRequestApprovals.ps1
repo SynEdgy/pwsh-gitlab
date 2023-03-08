@@ -9,7 +9,7 @@ function Add-GitlabMergeRequestApprovals
     )
 
     $Path = "projects/$($MergeRequest.SourceProjectId)/merge_requests/$($MergeRequest.MergeRequestId)/approvals"
-    $approvalDetails = Invoke-GitlabApi GET $Path
+    $approvalDetails = Invoke-GitlabApi -HttpMethod 'GET' -Path $Path
 
     $MergeRequest | Add-Member -MemberType NoteProperty -Name ApprovalsRequired -Value $approvalDetails.approvals_required -Force
     $MergeRequest | Add-Member -MemberType NoteProperty -Name ApprovalsLeft -Value $approvalDetails.approvals_left -Force

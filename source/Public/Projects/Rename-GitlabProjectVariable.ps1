@@ -11,8 +11,8 @@ function Rename-GitlabProjectDefaultBranch
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -31,7 +31,7 @@ function Rename-GitlabProjectDefaultBranch
 
     if ($WhatIf)
     {
-        Write-Host "WhatIf: would change default branch for $($Project.PathWithNamespace) from $OldDefaultBranch to $NewDefaultBranch"
+        Write-Information -InformationAction 'Continue' -MessageData "WhatIf: would change default branch for $($Project.PathWithNamespace) from $OldDefaultBranch to $NewDefaultBranch"
         return
     }
 
@@ -47,7 +47,7 @@ function Rename-GitlabProjectDefaultBranch
     }
     catch
     {
-        #
+        Write-Debug -Message ('Exception Caught: {0}' -f $_)
     }
 
     $null = Protect-GitlabBranch -Name $NewDefaultBranch -SiteUrl $SiteUrl -WhatIf:$WhatIf

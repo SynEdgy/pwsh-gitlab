@@ -36,6 +36,6 @@ function Get-GitlabProjectMember
     $Members = $All ? "members/all" : "members"
     $Resource = $User ? "projects/$($Project.Id)/$Members/$($User.Id)" : "projects/$($Project.Id)/$Members"
 
-    Invoke-GitlabApi GET $Resource -MaxPages $MaxPages -SiteUrl $SiteUrl |
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -MaxPages $MaxPages -SiteUrl $SiteUrl |
         New-WrapperObject 'Gitlab.Member'
 }

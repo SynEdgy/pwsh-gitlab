@@ -31,12 +31,12 @@ function Remove-GitlabBranch
     {
         ByName {
             # https://docs.gitlab.com/ee/api/branches.html#delete-repository-branch
-            Invoke-GitlabApi DELETE "projects/$($Project.Id)/repository/branches/$Name" -SiteUrl $SiteUrl -WhatIf:$WhatIf
+            Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($Project.Id)/repository/branches/$Name" -SiteUrl $SiteUrl -WhatIf:$WhatIf
         }
 
         MergedBranches {
             # https://docs.gitlab.com/ee/api/branches.html#delete-merged-branches
-            Invoke-GitlabApi DELETE "projects/$($Project.Id)/repository/merged_branches" -SiteUrl $SiteUrl -WhatIf:$WhatIf
+            Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($Project.Id)/repository/merged_branches" -SiteUrl $SiteUrl -WhatIf:$WhatIf
         }
 
         default {

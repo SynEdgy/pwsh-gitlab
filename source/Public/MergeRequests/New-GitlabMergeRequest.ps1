@@ -28,8 +28,8 @@ function New-GitlabMergeRequest
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -56,14 +56,15 @@ function New-GitlabMergeRequest
     }
 
     $Me = Get-GitlabCurrentUser
+    $body =  @{
+        source_branch        = $SourceBranch
+        target_branch        = $TargetBranch
+        remove_source_branch = 'true'
+        assignee_id          = $Me.Id
+        title                = $Title
+    }
 
-    $MergeRequest = $(Invoke-GitlabApi POST "projects/$($Project.Id)/merge_requests" @{
-            source_branch        = $SourceBranch
-            target_branch        = $TargetBranch
-            remove_source_branch = 'true'
-            assignee_id          = $Me.Id
-            title                = $Title
-        } -SiteUrl $SiteUrl -WhatIf:$WhatIf) | New-WrapperObject 'Gitlab.MergeRequest'
+    $MergeRequest = $(Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($Project.Id)/merge_requests" -Body $body -SiteUrl $SiteUrl -WhatIf:$WhatIf) | New-WrapperObject 'Gitlab.MergeRequest'
 
     if ($Follow)
     {

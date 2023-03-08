@@ -18,12 +18,12 @@ function Remove-GitlabProjectVariable
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $Project = Get-GitlabProject $ProjectId
 
-    Invoke-GitlabApi DELETE "projects/$($Project.Id)/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf | Out-Null
+    Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($Project.Id)/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf | Out-Null
 }

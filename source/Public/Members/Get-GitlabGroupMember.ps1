@@ -12,8 +12,8 @@ function Get-GitlabGroupMember
         [string]
         $UserId,
 
-        [switch]
         [Parameter()]
+        [switch]
         $All,
 
         [Parameter()]
@@ -41,10 +41,10 @@ function Get-GitlabGroupMember
         $User = Get-GitlabUser -UserId $UserId -SiteUrl $SiteUrl
     }
 
-    $Members = $All ? "members/all" : "members"
+    $Members = $All.IsPresent ? "members/all" : "members"
     $Resource = $User ? "groups/$($Group.Id)/$Members/$($User.Id)" : "groups/$($Group.Id)/$Members"
 
-    $Members = Invoke-GitlabApi GET $Resource -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf
+    $Members = Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf
     if ($MinAccessLevel)
     {
         $MinAccessLevelLiteral = Get-GitlabMemberAccessLevel $MinAccessLevel

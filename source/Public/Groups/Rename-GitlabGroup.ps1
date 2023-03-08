@@ -15,8 +15,8 @@ function Rename-GitlabGroup
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

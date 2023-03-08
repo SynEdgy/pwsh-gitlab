@@ -16,8 +16,8 @@ function Get-GitlabProjectHook
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -25,10 +25,10 @@ function Get-GitlabProjectHook
 
     $Resource = "projects/$($Project.Id)/hooks"
 
-    if($Id)
+    if ($Id)
     {
       $Resource = "$($Resource)/$($Id)"
     }
 
-    Invoke-GitlabApi GET $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.ProjectHook'
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.ProjectHook'
   }

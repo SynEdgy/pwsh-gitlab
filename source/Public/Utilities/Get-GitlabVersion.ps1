@@ -12,8 +12,8 @@ function Get-GitlabVersion
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

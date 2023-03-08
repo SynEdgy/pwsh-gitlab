@@ -3,10 +3,12 @@
 function ConvertTo-PascalCase
 {
     [CmdletBinding()]
+    [OutputType([string])]
     param
     (
         [Parameter(Position = 0, ValueFromPipeline = $true)]
-        [string] $Value
+        [string]
+        $Value
     )
 
     # https://devblogs.microsoft.com/oldnewthing/20190909-00/?p=102844

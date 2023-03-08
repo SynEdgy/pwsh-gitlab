@@ -111,7 +111,7 @@ function Get-GitlabAuditEvent
         $Query.created_after = $After
     }
 
-    $Results = Invoke-GitlabApi GET $Resource -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.AuditEvent'
+    $Results = Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.AuditEvent'
 
     if ($FetchAuthors)
     {

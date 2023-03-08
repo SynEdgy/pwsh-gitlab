@@ -3,10 +3,10 @@
 
 function Protect-GitlabBranch
 {
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param
     (
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
         [string]
         $ProjectId = '.',
 
@@ -71,6 +71,6 @@ function Protect-GitlabBranch
 
     if ($PSCmdlet.ShouldProcess("$($Project.PathWithNamespace)/branches/$Branch", "protect branch $($Request | ConvertTo-Json)"))
     {
-        Invoke-GitlabApi POST "projects/$($Project.Id)/protected_branches" -Body $Request | New-WrapperObject 'Gitlab.ProtectedBranch'
+        Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($Project.Id)/protected_branches" -Body $Request | New-WrapperObject 'Gitlab.ProtectedBranch'
     }
 }

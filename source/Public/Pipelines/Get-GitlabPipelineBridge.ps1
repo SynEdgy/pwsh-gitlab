@@ -13,17 +13,17 @@ function Get-GitlabPipelineBridge
         [string]
         $PipelineId,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter()]
         [string]
         [ValidateSet("created","pending","running","failed","success","canceled","skipped","manual")]
         $Scope,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter()]
         [string]
         $SiteUrl,
 
+        [Parameter()]
         [switch]
-        [Parameter(Mandatory=$false)]
         $WhatIf
     )
 
@@ -36,7 +36,7 @@ function Get-GitlabPipelineBridge
         SiteUrl    = $SiteUrl
     }
 
-    if($Scope)
+    if ($Scope)
     {
         $GitlabApiArguments['Query']['scope'] = $Scope
     }

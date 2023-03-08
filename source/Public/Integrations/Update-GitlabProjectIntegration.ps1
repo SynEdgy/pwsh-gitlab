@@ -29,6 +29,6 @@ function Update-GitlabProjectIntegration
 
     if ($PSCmdlet.ShouldProcess("$Resource", "update $($Settings | ConvertTo-Json)"))
     {
-        Invoke-GitlabApi PUT $Resource -Body $Settings -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.ProjectIntegration'
+        Invoke-GitlabApi -HttpMethod 'PUT' -Path $Resource -Body $Settings -SiteUrl $SiteUrl | New-WrapperObject 'Gitlab.ProjectIntegration'
     }
 }

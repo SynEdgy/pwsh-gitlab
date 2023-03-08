@@ -33,7 +33,7 @@ function Add-GitlabGroupMember
 
     if ($PSCmdlet.ShouldProcess($Group.FullName, "grant $($User.Username) '$AccessLevel' membership"))
     {
-        Invoke-GitlabApi POST "groups/$($Group.Id)/members" -Body $Request -SiteUrl $SiteUrl |
+        Invoke-GitlabApi -HttpMethod 'POST' -Path "groups/$($Group.Id)/members" -Body $Request -SiteUrl $SiteUrl |
             New-WrapperObject 'Gitlab.Member'
     }
 }

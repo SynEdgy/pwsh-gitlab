@@ -1,7 +1,8 @@
 
 # https://docs.gitlab.com/ee/api/deployments.html#list-project-deployments
 
-function Get-GitlabDeployment {
+function Get-GitlabDeployment
+{
     [CmdletBinding(DefaultParameterSetName = "Query")]
     [Alias('deploys')]
     param
@@ -48,8 +49,8 @@ function Get-GitlabDeployment {
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -60,7 +61,7 @@ function Get-GitlabDeployment {
         SiteUrl = $SiteUrl
     }
 
-    switch($PSCmdlet.ParameterSetName)
+    switch ($PSCmdlet.ParameterSetName)
     {
         Query {
             $GitlabApiArguments.Path = "projects/$($Project.Id)/deployments"

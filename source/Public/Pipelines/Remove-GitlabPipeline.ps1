@@ -16,18 +16,18 @@ function Remove-GitlabPipeline
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
     $Project = Get-GitlabProject $ProjectId -SiteUrl $SiteUrl
     $Pipeline = Get-GitlabPipeline -ProjectId $ProjectId -PipelineId $PipelineId -SiteUrl $SiteUrl
 
-    Invoke-GitlabApi DELETE "projects/$($Project.Id)/pipelines/$($Pipeline.Id)" -SiteUrl $SiteUrl -WhatIf:$WhatIf | Out-Null
+    Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($Project.Id)/pipelines/$($Pipeline.Id)" -SiteUrl $SiteUrl -WhatIf:$WhatIf | Out-Null
 
     if (-not $WhatIf)
     {
-        Write-Host "$PipelineId deleted from $($Project.Name)"
+        Write-Information -InformationAction 'Continue' -MessageData "$PipelineId deleted from $($Project.Name)"
     }
 }

@@ -26,12 +26,12 @@ function Remove-GitlabProjectMember
     {
         try
         {
-            $null = Invoke-GitlabApi DELETE "projects/$($Project.Id)/members/$($User.Id)" -SiteUrl $SiteUrl
-            Write-Host "Removed $($User.Username) from $($Project.Name)"
+            $null = Invoke-GitlabApi -HttpMethod 'DELETE' -Path "projects/$($Project.Id)/members/$($User.Id)" -SiteUrl $SiteUrl
+            Write-Information -InformationAction 'Continue' -MessageData "Removed $($User.Username) from $($Project.Name)"
         }
         catch
         {
-            Write-Error "Error removing $($User.Username) from $($Project.Name): $_"
+            Write-Error -Message "Error removing $($User.Username) from $($Project.Name): $_"
         }
     }
 }

@@ -17,20 +17,20 @@ function Set-GitlabGroupVariable
         [string]
         $Value,
 
-        [bool]
         [Parameter()]
+        [bool]
         $Protect = $false,
 
-        [bool]
         [Parameter()]
+        [bool]
         $Mask = $false,
 
         [Parameter()]
         [string]
         $SiteUrl,
 
+        [Parameter()]
         [switch]
-        [Parameter(Mandatory=$false)]
         $WhatIf
     )
 
@@ -70,11 +70,11 @@ function Set-GitlabGroupVariable
 
     if ($IsExistingVariable)
     {
-        Invoke-GitlabApi PUT "groups/$GroupId/variables/$Key" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
+        Invoke-GitlabApi -HttpMethod 'PUT' -Path "groups/$GroupId/variables/$Key" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
     }
     else
     {
         $Query.Add('key', $Key)
-        Invoke-GitlabApi POST "groups/$GroupId/variables" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
+        Invoke-GitlabApi -HttpMethod 'POST' -Path "groups/$GroupId/variables" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
     }
 }

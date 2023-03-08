@@ -12,12 +12,12 @@ function Remove-GitlabEnvironment
         [string]
         $Name,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [string]
         $SiteUrl,
 
+        [Parameter()]
         [switch]
-        [Parameter(Mandatory = $false)]
         $WhatIf
     )
 
@@ -35,6 +35,6 @@ function Remove-GitlabEnvironment
         $null = Invoke-GitlabApi @GitlabApiArguments -WhatIf:$WhatIf
 
         # TODO: change to write-Verbose and use -f operator
-        Write-Host "Environment '$($Environment.Name)' (id: $($Environment.Id)) has been deleted"
+        Write-Information -InformationAction 'Continue' -MessageData "Environment '$($Environment.Name)' (id: $($Environment.Id)) has been deleted"
     }
 }

@@ -1,6 +1,7 @@
 
 
-function Add-GitlabSite {
+function Add-GitlabSite
+{
     [CmdletBinding()]
     param
     (

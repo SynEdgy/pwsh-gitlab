@@ -17,8 +17,8 @@ function Open-GitlabIssue
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 

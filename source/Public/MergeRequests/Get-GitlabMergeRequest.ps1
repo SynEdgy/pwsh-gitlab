@@ -64,8 +64,8 @@ function Get-GitlabMergeRequest
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -118,7 +118,7 @@ function Get-GitlabMergeRequest
         }
     }
 
-    if($State)
+    if ($State)
     {
         $Query['state'] = $State
     }
@@ -148,7 +148,7 @@ function Get-GitlabMergeRequest
         $Query['source_branch'] = $Branch
     }
 
-    $MergeRequests = Invoke-GitlabApi GET $Path $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.MergeRequest'
+    $MergeRequests = Invoke-GitlabApi -HttpMethod 'GET' -Path $Path -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.MergeRequest'
 
     if ($IncludeChangeSummary)
     {

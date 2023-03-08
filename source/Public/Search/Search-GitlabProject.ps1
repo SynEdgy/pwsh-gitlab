@@ -20,8 +20,8 @@ function Search-GitlabProject
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -41,7 +41,7 @@ function Search-GitlabProject
     }
 
     $Resource = "projects/$($ProjectId | ConvertTo-UrlEncoded)/search"
-    Invoke-GitlabApi GET $Resource $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Resource -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf |
         New-WrapperObject 'Gitlab.SearchResult.Blob' |
         Add-Member -MemberType 'NoteProperty' -Name 'Project' -Value $Project -PassThru
 }

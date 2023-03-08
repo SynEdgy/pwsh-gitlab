@@ -22,8 +22,8 @@ function Add-GitlabProjectMember
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -35,6 +35,6 @@ function Add-GitlabProjectMember
         access_level = Get-GitlabMemberAccessLevel $AccessLevel
     }
 
-    Invoke-GitlabApi POST "projects/$($Project.Id)/members" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+    Invoke-GitlabApi -HttpMethod 'POST' -Path "projects/$($Project.Id)/members" -Query $Query -SiteUrl $SiteUrl -WhatIf:$WhatIf |
         New-WrapperObject 'Gitlab.Member'
 }

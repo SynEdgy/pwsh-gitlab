@@ -3,7 +3,6 @@
 
 function Get-GitlabProjectVariable
 {
-
     [CmdletBinding()]
     param
     (
@@ -28,10 +27,10 @@ function Get-GitlabProjectVariable
 
     if ($Key)
     {
-        Invoke-GitlabApi GET "projects/$($Project.Id)/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
+        Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($Project.Id)/variables/$Key" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
     }
     else
     {
-        Invoke-GitlabApi GET "projects/$($Project.Id)/variables" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
+        Invoke-GitlabApi -HttpMethod 'GET' -Path "projects/$($Project.Id)/variables" -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject 'Gitlab.Variable'
     }
 }

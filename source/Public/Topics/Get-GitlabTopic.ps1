@@ -60,7 +60,7 @@ function Get-GitlabTopic
         $Query.without_projects = 'true'
     }
 
-    Invoke-GitlabApi GET $Url $Query -MaxPages $MaxPages -SiteUrl $SiteUrl |
+    Invoke-GitlabApi -HttpMethod 'GET' -Path $Url -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl |
         New-WrapperObject 'Gitlab.Topic' |
         Sort-Object Name
 }

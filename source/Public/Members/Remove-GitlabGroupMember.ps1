@@ -26,12 +26,12 @@ function Remove-GitlabGroupMember
     {
         try
         {
-            $null = Invoke-GitlabApi DELETE "groups/$($Group.Id)/members/$($User.Id)" -SiteUrl $SiteUrl -WhatIf:$WhatIf
-            Write-Host "Removed $($User.Username) from $($Group.Name)"
+            $null = Invoke-GitlabApi -HttpMethod 'DELETE' -Path "groups/$($Group.Id)/members/$($User.Id)" -SiteUrl $SiteUrl -WhatIf:$WhatIf
+            Write-Information -InformationAction 'Continue' -MessageData "Removed $($User.Username) from $($Group.Name)"
         }
         catch
         {
-            Write-Error "Error removing $($User.Username) from $($Group.Name): $_"
+            Write-Error -Message "Error removing $($User.Username) from $($Group.Name): $_"
         }
     }
 }

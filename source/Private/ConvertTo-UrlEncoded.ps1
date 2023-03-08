@@ -1,9 +1,11 @@
 
-function ConvertTo-UrlEncoded {
+function ConvertTo-UrlEncoded
+{
     [CmdletBinding()]
+    [OutputType([string])]
     param
     (
-        [Parameter(Position=0, ValueFromPipeline = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string]
         $Value
     )

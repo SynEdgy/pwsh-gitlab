@@ -14,7 +14,7 @@ function Search-Gitlab
 
         [Parameter()]
         [uint]
-        $MaxResults = $global:GitlabSearchResultsDefaultLimit,
+        $MaxResults = $GitlabSearchResultsDefaultLimit,
 
         [Parameter()]
         [switch]
@@ -39,7 +39,7 @@ function Search-Gitlab
 
     if ($All)
     {
-        if ($MaxResults -ne $global:GitlabSearchResultsDefaultLimit)
+        if ($MaxResults -ne $GitlabSearchResultsDefaultLimit)
         {
             Write-Warning -Message "Ignoring -MaxResults in favor of -All"
         }
@@ -70,12 +70,18 @@ function Search-Gitlab
         }
     }
 
-    $Results = Invoke-GitlabApi GET 'search' $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject $DisplayType
+    $Results = Invoke-GitlabApi -HttpMethod 'GET' -Path 'search' -Query $Query -MaxPages $MaxPages -SiteUrl $SiteUrl -WhatIf:$WhatIf | New-WrapperObject $DisplayType
 
     if ($Scope -eq 'blobs')
     {
         # the response object is too anemic to be useful.  enrich with project data
-        $Projects = $Results.ProjectId | Select-Object -Unique | ForEach-Object { @{Id=$_; Project=Get-GitlabProject $_ } }
+        $Projects = $Results.ProjectId | Select-Object -Unique | ForEach-Object {
+            @{
+                Id = $_
+                Project = Get-GitlabProject $_
+            }
+        }
+
         $Results | ForEach-Object {
             $_ | Add-Member -MemberType 'NoteProperty' -Name 'Project' -Value $($Projects | Where-Object Id -eq $_.ProjectId | Select-Object -ExpandProperty Project)
         }

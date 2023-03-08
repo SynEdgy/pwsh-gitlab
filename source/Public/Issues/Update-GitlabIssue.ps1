@@ -72,8 +72,8 @@ function Update-GitlabIssue
         [string]
         $SiteUrl,
 
-        [switch]
         [Parameter()]
+        [switch]
         $WhatIf
     )
 
@@ -155,6 +155,6 @@ function Update-GitlabIssue
 
     $ProjectId = $(Get-GitlabProject -ProjectId $ProjectId).Id
 
-    return Invoke-GitlabApi PUT "projects/$ProjectId/issues/$IssueId" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf |
+    return Invoke-GitlabApi -HttpMethod 'PUT' -Path "projects/$ProjectId/issues/$IssueId" -Body $Body -SiteUrl $SiteUrl -WhatIf:$WhatIf |
         New-WrapperObject 'Gitlab.Issue'
 }

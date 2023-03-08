@@ -37,12 +37,12 @@ function Enable-GitlabProjectSlackNotification
         [string]
         $JobEvents,
 
-        [Parameter(ParameterSetName='SpecificEvents', Position=1, Mandatory)]
+        [Parameter(ParameterSetName = 'SpecificEvents', Position=1, Mandatory = $true)]
         [ValidateSet('commit', 'confidential_issue', 'confidential_note', 'deployment', 'issue', 'merge_request', 'note', 'pipeline', 'push', 'tag_push', 'wiki_page')]
         [string []]
         $Enable,
 
-        [Parameter(ParameterSetName='SpecificEvents', Position=1, Mandatory)]
+        [Parameter(ParameterSetName = 'SpecificEvents', Position = 1, Mandatory = $true)]
         [ValidateSet('commit', 'confidential_issue', 'confidential_note', 'deployment', 'issue', 'merge_request', 'note', 'pipeline', 'push', 'tag_push', 'wiki_page')]
         [string []]
         $Disable,
